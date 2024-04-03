@@ -15,7 +15,7 @@
 
             const int MaxInput = 10;
 
-            string player, mission;
+            string? player, mission;
             int score;
             List<Score> scores = new List<Score>();
 
