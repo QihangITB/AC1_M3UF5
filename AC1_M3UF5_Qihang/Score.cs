@@ -11,25 +11,9 @@ namespace AC1_M3UF5_Qihang
     {
         private const int firstPosition = 0, secondPosition = 1, MinScoring = 0,MaxScoring = 500;
 
-        private string? player;
-        private string? mission;
-        private int scoring;
-
-        public string Player
-        {
-            get { return this.player; }
-            set { this.player = CheckPlayer(value) ? value : null; }
-        }
-        public string Mission
-        {
-            get { return this.mission; }
-            set { this.mission = CheckMission(value) ? value : null; }
-        }
-        public int Scoring
-        {
-            get { return this.scoring; }
-            set { this.scoring = CheckScoring(value) ? value : -1; }
-        }
+        public string? Player { get; set; }
+        public string? Mission { get; set; }
+        public int Scoring { get; set; }
 
         public Score(string player, string mission, int scoring)
         {
@@ -38,33 +22,41 @@ namespace AC1_M3UF5_Qihang
             Scoring = scoring;
         }
 
-        public bool CheckPlayer(string player)
+        public static bool CheckPlayer(string player)
         {
-            string pattern = "[a-zA-Z]";
+            string pattern = "^[a-zA-Z]+$";
             Regex rg = new Regex(pattern);
             return rg.IsMatch(player);
         }
 
-        public bool CheckMission(string mission)
+        public static bool CheckMission(string mission)
         {
             string[] prefixes = {"Alfa", "Beta", "Gamma", "Delta", "Epsilon",
                 "Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mi", 
                 "Ni", "Ksi", "Omicron", "Pi", "Ro", "Sigma", "Tau", "Ipsilon", 
                 "Fi", "Khi", "Psi", "Omega"};
 
-            string[] arrayName = mission.Trim().Split('-');
+            try
+            {
+                string[] arrayName = mission.Split('-');
 
-            bool validPrefix = prefixes.Contains(arrayName[firstPosition]);
+                bool validPrefix = prefixes.Contains(arrayName[firstPosition]);
 
-            string number = arrayName[secondPosition];
+                string number = arrayName[secondPosition];
 
-            string pattern = "[0-9]{3}";
-            Regex rg = new Regex(pattern);
+                string pattern = "^[0-9]{3}$";
+                Regex rg = new Regex(pattern);
 
-            return rg.IsMatch(number) && validPrefix;
+                return rg.IsMatch(number) && validPrefix;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
 
-        public bool CheckScoring(int scoring)
+        public static bool CheckScoring(int scoring)
         {
             return scoring >= MinScoring && scoring <= MaxScoring;
         }
