@@ -22,14 +22,14 @@ namespace AC1_M3UF5_Qihang
             Scoring = scoring;
         }
 
-        public static bool CheckPlayer(string player)
+        public static bool CheckPlayer(string? player)
         {
             string pattern = "^[a-zA-Z]+$";
             Regex rg = new Regex(pattern);
-            return rg.IsMatch(player);
+            return player == null ? false : rg.IsMatch(player);
         }
 
-        public static bool CheckMission(string mission)
+        public static bool CheckMission(string? mission)
         {
             string[] prefixes = {"Alfa", "Beta", "Gamma", "Delta", "Epsilon",
                 "Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mi", 
@@ -38,6 +38,12 @@ namespace AC1_M3UF5_Qihang
 
             try
             {
+                if (string.IsNullOrEmpty(mission))
+                {
+                    //Para quitar el warning de valor nulo
+                    return false;
+                }
+
                 string[] arrayName = mission.Split('-');
 
                 bool validPrefix = prefixes.Contains(arrayName[firstPosition]);
